@@ -15,14 +15,14 @@ with open("loc.csv", "a") as file_object:
 	file_object.seek(0)
 	for i in range(0,len(project)):
 		projects = project[i]['key']
-		nama_project = project[i]['name']
 		loc = sonar.project_branches.search_project_branches(project=projects)
 		if len(loc['branches']) > 0 :
 			for j in range(0,len(loc['branches'])):
 				component = sonar.measures.get_component_with_specified_measures(component=projects, branch=loc['branches'][j]['name'],metricKeys="ncloc")
 				branch = loc['branches'][j]['name']
+				nama_project = component['component']['name']
 				if component['component']['measures'] :
-					if paling_banyak < int(component['component']['measures'][0]['value']) :
+					if paling_banyak < int(component['component']['measures'][0]['value']):
 						paling_banyak = int(component['component']['measures'][0]['value'])
 						branch = loc['branches'][j]['name']
 			tes = nama_project+","+projects+","+branch+","+str(paling_banyak)+","
